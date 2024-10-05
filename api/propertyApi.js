@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = process.env.API_URL || 'http://localhost:3000/api/v1/properties';
+const API_URL =
+  process.env.API_URL || "http://localhost:3000/api/v1/properties";
 
-const getToken = () => localStorage.getItem('token');
+const getToken = () => localStorage.getItem("token");
 
 // Create a new property
 export const createProperty = async (propertyData) => {
@@ -13,11 +14,11 @@ export const createProperty = async (propertyData) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('Property created:', response.data);
+    console.log("Property created:", response.data);
     return response.data;
   } catch (error) {
-    console.error('Failed to create property:', error);
-    alert('Failed to create property.');
+    console.error("Failed to create property:", error);
+    alert("Failed to create property.");
     throw error;
   }
 };
@@ -28,8 +29,8 @@ export const getAllProperties = async () => {
     const response = await axios.get(`${API_URL}/list-properties`);
     return response.data;
   } catch (error) {
-    console.error('Failed to fetch properties:', error);
-    alert('Failed to fetch properties.');
+    console.error("Failed to fetch properties:", error);
+    alert("Failed to fetch properties.");
     throw error;
   }
 };
@@ -40,8 +41,8 @@ export const getPropertyById = async (id) => {
     const response = await axios.get(`${API_URL}/property/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Failed to fetch property:', error);
-    alert('Failed to fetch property.');
+    console.error("Failed to fetch property:", error);
+    alert("Failed to fetch property.");
     throw error;
   }
 };
@@ -55,11 +56,11 @@ export const deleteProperty = async (id) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('Property deleted:', response.data);
+    console.log("Property deleted:", response.data);
     return response.data.message;
   } catch (error) {
-    console.error('Failed to delete property:', error);
-    alert('Failed to delete property.');
+    console.error("Failed to delete property:", error);
+    alert("Failed to delete property.");
     throw error;
   }
 };
@@ -75,8 +76,8 @@ export const getUserProperties = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error('Failed to fetch user properties:', error);
-    alert('Failed to fetch user properties.');
+    console.error("Failed to fetch user properties:", error);
+    alert("Failed to fetch user properties.");
     throw error;
   }
 };
@@ -94,11 +95,11 @@ export const updateProperty = async (id, propertyData) => {
         },
       }
     );
-    console.log('Property updated:', response.data);
+    console.log("Property updated:", response.data);
     return response.data;
   } catch (error) {
-    console.error('Failed to update property:', error);
-    alert('Failed to update property.');
+    console.error("Failed to update property:", error);
+    alert("Failed to update property.");
     throw error;
   }
 };

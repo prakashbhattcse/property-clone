@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = process.env.API_URL || 'http://localhost:3000/api/v1/auth';
+const API_URL = process.env.API_URL || "http://localhost:3000/api/v1/auth";
 
-export const login = (credentials) => axios.post(`${API_URL}/login`, credentials);
+export const login = (credentials) =>
+  axios.post(`${API_URL}/login`, credentials);
 export const signup = (userData) => axios.post(`${API_URL}/signup`, userData);

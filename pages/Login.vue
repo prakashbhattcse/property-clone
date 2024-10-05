@@ -1,58 +1,93 @@
 <template>
-  <div class="login-container">
-    <div class="navigation navbar-container">
-      <button @click="goHome">Home</button>
-    </div>
-    <div class="login-section">
+  <div>
+    <Navbar :isLoggedIn="isLoggedIn" @logout="handleLogout" />
+    <div class="login-container">
       <h1>Login</h1>
-      <form @submit.prevent="handleSubmit">
+      <!-- Add your login form here -->
+      <form @submit.prevent="handleLogin">
+        <input v-model="email" type="email" placeholder="Email" required />
         <input
-          type="email"
-          placeholder="Email"
-          v-model="email"
-        />
-        <input
+          v-model="password"
           type="password"
           placeholder="Password"
-          v-model="password"
+          required
         />
         <button type="submit">Login</button>
       </form>
     </div>
-    <ToastContainer />
   </div>
 </template>
 
 <script>
-import { login } from "@/apis/userApi";
-import { ToastContainer, toast } from 'vue-toastification';
-import 'vue-toastification/dist/index.css';
+import Navbar from "@/components/Navbar.vue";
 
 export default {
+  name: "LoginPage",
+  components: {
+    Navbar,
+  },
   data() {
     return {
-      email: '',
-      password: '',
+      isLoggedIn: false,
+      email: "",
+      password: "",
     };
   },
   methods: {
-    goHome() {
-      this.$router.push('/');
+    handleLogout() {
+      // Implement your logout logic here
+      this.isLoggedIn = false;
+      // Additional logout actions...
     },
-    async handleSubmit() {
+    async handleLogin() {
       try {
-        const response = await login({ email: this.email, password: this.password });
-        localStorage.setItem('token', response.data.token);
-        toast.success('Login successful!');
+        await this.$auth.loginWith('local', {
+          data: {
+            email: this.email,
+            password: this.password
+          }
+        });
         this.$router.push('/');
       } catch (error) {
-        toast.error('Error logging in. Please try again.');
+        console.error('Login failed:', error);
+        alert('Login failed: ' + (error.response?.data?.message || error.message));
       }
-    }
-  }
+    },
+    async logout() {
+      await this.$auth.logout();
+      this.isLoggedIn = false;
+      this.$router.push('/login');
+    },
+  },
 };
 </script>
 
 <style scoped>
-@import "@/assets/css/Pages.css";
+.login-container {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
 </style>
